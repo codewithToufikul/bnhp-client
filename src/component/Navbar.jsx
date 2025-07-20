@@ -1,5 +1,6 @@
-import { Menu, X, ChevronDown, Users, Heart, Star, ArrowRight, Phone, Mail, MapPin, Facebook, MessageCircle, Home, Info, Newspaper, Crown, Calendar } from 'lucide-react';
+import { Menu, X, ChevronDown, Users, Heart, Star, ArrowRight, Phone, Mail, MapPin, Facebook, MessageCircle, Home, Info, Newspaper, Crown, Calendar, Link } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,7 +48,8 @@ function Navbar() {
   return (
     <div>
       {/* Header Section */}
-      <header className={`bg-gradient-to-r from-green-700 via-green-800 to-green-900 shadow-lg fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? ' py-1 md:py-2' : ' py-2 md:py-4'}`}>
+      <header className={`bg-gradient-to-r from-[#1B5E20] via-[#2E7D32] to-[#388E3C]
+ shadow-lg fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? ' py-1 md:py-2' : ' py-2 md:py-4'}`}>
         <div className="container mx-auto px-2 md:px-6 py-1 md:py-4">
           <div className="flex items-center justify-between">
             {/* Logo and Website Name */}
@@ -56,16 +58,15 @@ function Navbar() {
               onClick={() => handleNavigation('home')}
             >
               <div className="relative">
-                <div className={`bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110 ${isScrolled ? 'w-10 h-10' : 'w-14 h-14'}`}>
-                  <img className=' w-12 md:w-16 rounded-4xl' src="https://i.ibb.co/RkZLhBnm/1.jpg" alt="" />
-                </div>
+                <NavLink to={"/"} className={`bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110 ${isScrolled ? 'w-10 h-10' : 'w-14 h-14'}`}>
+                  <img className=' w-12 md:w-20 rounded-4xl' src="https://i.ibb.co/RkZLhBnm/1.jpg" alt="" />
+                </NavLink>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
               </div>
               <div>
-                <h1 className={`font-bold text-white group-hover:text-yellow-400 transition-all duration-300 ${isScrolled ? 'text-sm md:text-xl' : 'text-sm md:text-3xl'}`}>
+                <h1 className={`font-bold text-white group-hover:text-yellow-400 transition-all duration-300 ${isScrolled ? 'text-sm md:text-2xl' : 'text-sm md:text-3xl'}`}>
                   জাতীয়তাবাদী বাস্তুহারা দল
                 </h1>
-                <p className={`text-green-200 transition-all duration-300 ${isScrolled ? 'text-xs md:text-sm' : 'text-xs md:text-base'}`}>গৃহহীনদের অধিকার প্রতিষ্ঠায় প্রতিশ্রুতিবদ্ধ</p>
               </div>
             </div>
 
@@ -112,22 +113,24 @@ function Navbar() {
       </header>
 
       {/* Navigation Menu */}
-      <nav className={`bg-gradient-to-r from-green-800 to-green-900 shadow-md fixed left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? ' top-16 lg:top-24 shadow-xl' : 'top-16 md:top-28'}`}>
+      <nav className={`bg-gradient-to-r from-green-800 to-green-900 shadow-md fixed left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? ' top-16 lg:top-20 shadow-xl' : 'top-16 md:top-28'}`}>
         <div className="container mx-auto px-6">
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center space-x-8 py-4">
             {/* About Us */}
             <li>
-              <button
-                onClick={() => handleNavigation('about')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${activeSection === 'about'
-                  ? 'bg-yellow-400 text-green-800 shadow-lg'
-                  : 'text-white hover:text-yellow-400 hover:bg-green-700'
-                  }`}
+              <NavLink
+                to={"/about-us"}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 bg-yellow-400 text-green-800 shadow-lg'
+                    : 'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 text-white hover:text-yellow-400 hover:bg-green-700'
+                }
+
               >
                 <Info size={18} />
                 <span>পরিচিতি</span>
-              </button>
+              </NavLink>
             </li>
 
             {/* News & Contact */}
@@ -220,7 +223,7 @@ function Navbar() {
 
             {/* Current Events */}
             <li>
-              <button
+              <NavLink
                 onClick={() => handleNavigation('events')}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${activeSection === 'events'
                   ? 'bg-yellow-400 text-green-800 shadow-lg'
@@ -229,7 +232,7 @@ function Navbar() {
               >
                 <Calendar size={18} />
                 <span>কারেন্ট ইভেন্ট</span>
-              </button>
+              </NavLink>
             </li>
           </ul>
 
@@ -254,7 +257,6 @@ function Navbar() {
                 {/* Mobile Menu Items */}
                 <li>
                   <button
-                    onClick={() => handleNavigation('about')}
                     className="w-full flex items-center space-x-3 px-4 py-3 text-left text-white hover:bg-green-700 hover:text-yellow-400 transition-colors"
                   >
                     <Info size={18} />

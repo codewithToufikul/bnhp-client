@@ -31,7 +31,7 @@ const HeroSection = () => {
             title: "সবার জন্য আবাসন",
             subtitle: "স্বপ্নের বাংলাদেশ গড়ি",
             description: "প্রতিটি পরিবারের জন্য নিরাপদ আবাসনের নিশ্চয়তা এবং সমান সুযোগের অধিকার।",
-            image: "https://i.ibb.co/CpKchMTf/ad-2-20240611090126.jpg"
+            image: "https://i.ibb.co/8LMwWgNF/asroyon-gor.jpg"
         }
     ];
 
@@ -45,9 +45,11 @@ const HeroSection = () => {
 
 
     return (
-        <section className="relative min-h-screen flex items-center overflow-hidden">
+        <section className="relative md:h-[calc(100vh-160px)] flex items-center overflow-hidden">
             {/* Animated Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-green-700 via-green-800 to-emerald-900">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#E53935] via-[#FBC02D] to-[#388E3C]
+
+">
                 <div className="absolute inset-0 bg-black/20"></div>
                 <div
                     className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2760%27%20height%3D%2760%27%20viewBox%3D%270%200%2060%2060%27%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%3E%3Cg%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cg%20fill%3D%27%23ffffff%27%20fill-opacity%3D%270.05%27%3E%3Ccircle%20cx%3D%2730%27%20cy%3D%2730%27%20r%3D%272%27/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"
@@ -76,7 +78,7 @@ const HeroSection = () => {
                     {/* Enhanced Text Section */}
                     <div className="flex-1 text-center lg:text-left">
                         <div className="mb-6">
-                            <div className="inline-flex items-center bg-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-semibold mb-4 animate-pulse">
+                            <div className="inline-flex items-center bg-yellow-400/20 text-white/90 px-4 py-2 rounded-full text-sm font-semibold mb-4 animate-pulse">
                                 {React.createElement(Users, { className: "w-4 h-4 mr-2" })}
                                 {memberCount.toLocaleString()} সদস্য আমাদের সাথে
                             </div>
