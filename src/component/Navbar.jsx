@@ -135,16 +135,17 @@ function Navbar() {
 
             {/* News & Contact */}
             <li>
-              <button
-                onClick={() => handleNavigation('news')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${activeSection === 'news'
-                  ? 'bg-yellow-400 text-green-800 shadow-lg'
-                  : 'text-white hover:text-yellow-400 hover:bg-green-700'
-                  }`}
+              <NavLink
+                to={"/all-news"}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 bg-yellow-400 text-green-800 shadow-lg'
+                    : 'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 text-white hover:text-yellow-400 hover:bg-green-700'
+                }
               >
                 <Newspaper size={18} />
                 <span>সংবাদ-যোগাযোগ</span>
-              </button>
+              </NavLink>
             </li>
 
             {/* Leadership with Dropdown */}
@@ -224,11 +225,12 @@ function Navbar() {
             {/* Current Events */}
             <li>
               <NavLink
-                onClick={() => handleNavigation('events')}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${activeSection === 'events'
-                  ? 'bg-yellow-400 text-green-800 shadow-lg'
-                  : 'text-white hover:text-yellow-400 hover:bg-green-700'
-                  }`}
+                to={'/current-events'}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 bg-yellow-400 text-green-800 shadow-lg'
+                    : 'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 text-white hover:text-yellow-400 hover:bg-green-700'
+                }
               >
                 <Calendar size={18} />
                 <span>কারেন্ট ইভেন্ট</span>
