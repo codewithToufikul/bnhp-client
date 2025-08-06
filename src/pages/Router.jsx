@@ -4,6 +4,7 @@ import About from "./About/About";
 import AllNews from "./AllNews/AllNews";
 import CurrentEvents from "./CurrentEventsa/CurrentEvents";
 import NewsDetails from "./NewsDetails/NewsDetails";
+import DashLogin from "./DashBoard/DashLogin/DashLogin";
 
 export const router = createBrowserRouter([
     {
@@ -25,5 +26,8 @@ export const router = createBrowserRouter([
     {
         path: "/news-details/:id",
         element: <NewsDetails />
+    },{
+        path: "/dashboard-login",
+        element: <DashLogin/>
     }
 ])
