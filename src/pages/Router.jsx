@@ -5,6 +5,11 @@ import AllNews from "./AllNews/AllNews";
 import CurrentEvents from "./CurrentEventsa/CurrentEvents";
 import NewsDetails from "./NewsDetails/NewsDetails";
 import DashLogin from "./DashBoard/DashLogin/DashLogin";
+import DashBoard from "./DashBoard/DashBoard/DashBoard";
+import PrivetRoute from "../component/PrivetRoute";
+import DashboardEvents from "./DashBoard/DashboardEvents/DashboardEvents";
+import DashboardNews from "./DashBoard/DashboardNews/DashboardNews";
+import DashboardSlider from "./DashBoard/DashboardSlider/DashboardSlider";
 
 export const router = createBrowserRouter([
     {
@@ -29,5 +34,22 @@ export const router = createBrowserRouter([
     },{
         path: "/dashboard-login",
         element: <DashLogin/>
+    },{
+        path: "/dashboard",
+        element: <PrivetRoute><DashBoard/></PrivetRoute>,
+        children:[
+            {
+                path: "/dashboard/manage-news",
+                element: <PrivetRoute><DashboardNews></DashboardNews></PrivetRoute>
+            },
+            {
+                path: "/dashboard/manage-events",
+                element: <PrivetRoute><DashboardEvents/></PrivetRoute>
+            },
+            {
+                path: "/dashboard/manage-slider",
+                element: <PrivetRoute><DashboardSlider/></PrivetRoute>
+            }
+        ]
     }
 ])

@@ -59,12 +59,12 @@ function Navbar() {
             >
               <div className="relative">
                 <NavLink to={"/"} className={`bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110 ${isScrolled ? 'w-10 h-10' : 'w-14 h-14'}`}>
-                  <img className=' w-12 md:w-20 rounded-4xl' src="https://i.ibb.co/RkZLhBnm/1.jpg" alt="" />
+                  <img className=' w-12 md:w-32 rounded-4xl' src="https://i.ibb.co/RkZLhBnm/1.jpg" alt="" />
                 </NavLink>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
               </div>
               <div>
-                <h1 className={`font-bold text-white group-hover:text-yellow-400 transition-all duration-300 ${isScrolled ? 'text-sm md:text-2xl' : 'text-sm md:text-3xl'}`}>
+                <h1 className={`font-bold text-white group-hover:text-yellow-400 transition-all duration-300 ${isScrolled ? 'text-xl md:text-5xl' : 'text-2xl md:text-6xl'}`}>
                   জাতীয়তাবাদী বাস্তুহারা দল
                 </h1>
               </div>

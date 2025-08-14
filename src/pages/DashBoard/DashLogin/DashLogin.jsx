@@ -1,16 +1,30 @@
 import React, { useState } from 'react'
 import { Lock, User, Eye, EyeOff } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useAuth } from '../../../component/AuthContext'
 
 const DashLogin = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const { login } = useAuth();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsLoading(true)
-    setIsLoading(false)
+    try {
+      setIsLoading(true)
+      await login(username, password);
+      setIsLoading(false)
+      navigate('/dashboard');
+    } catch (err) {
+      setIsLoading(false)
+      const errorMessage =
+        err?.response?.data?.message || err?.message || "Something went wrong!";
+      toast.error(errorMessage);
+    }
   }
 
   return (
