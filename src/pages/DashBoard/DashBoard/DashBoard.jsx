@@ -10,11 +10,10 @@ import {
   FileTextIcon
 } from 'lucide-react';
 import { useAuth } from '../../../component/AuthContext';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 const DashBoard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState('সংবাদসমূহ');
   const {user, userLoading} = useAuth();
 
   const sidebarItems = [
@@ -22,8 +21,6 @@ const DashBoard = () => {
     { icon: CalendarHeart, label: 'ইভেন্টসমূহ', path: '/dashboard/manage-events' },
     { icon: Image, label: 'Sliders', path: '/dashboard/manage-slider' },
     { icon: FileTextIcon, label: 'কার্যক্রম ও ব্লগ সমূহ', path: '/dashboard/manage-blog' },
-    { icon: FileText, label: 'Reports', path: '/admin/reports' },
-    { icon: Settings, label: 'Settings', path: '/admin/settings' }
   ];
   
   if (userLoading) return <p>Loading user info...</p>;
@@ -49,18 +46,20 @@ const DashBoard = () => {
         <nav className="flex-1 mt-8 px-4 overflow-y-auto">
           {sidebarItems.map((item, index) => (
             <div key={index}>
-              <Link
+              <NavLink
                 to={item.path}
-                onClick={() => setActiveItem(item.label)}
-                className={`w-full flex items-center px-4 py-3 mb-2 text-white rounded-lg transition-colors ${
-                  activeItem === item.label 
-                    ? 'bg-teal-700 border-l-4 border-yellow-300' 
-                    : 'hover:bg-teal-700'
-                }`}
+                onClick={() => setSidebarOpen(false)}
+                className={({ isActive }) =>
+                  `w-full flex items-center px-4 py-3 mb-2 text-white rounded-lg transition-colors ${
+                    isActive 
+                      ? 'bg-teal-700 border-l-4 border-yellow-300' 
+                      : 'hover:bg-teal-700'
+                  }`
+                }
               >
                 <item.icon size={20} className="mr-3" />
                 <span className="font-medium">{item.label}</span>
-              </Link>
+              </NavLink>
             </div>
           ))}
         </nav>
@@ -78,7 +77,7 @@ const DashBoard = () => {
               >
                 <Menu size={24} />
               </button>
-              <h2 className="text-xl font-semibold text-slate-900">{activeItem}</h2>
+              <h2 className="text-xl font-semibold text-slate-900">Dashboard</h2>
             </div>
             
             <div className="flex items-center space-x-4">

@@ -1,35 +1,84 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../../component/Navbar'
 import Footer from '../../component/Footer';
 import { Link } from 'react-router-dom';
+import axiosInstance from '../../Hooks/axiosIntance';
 
 const AllNews = () => {
-    const news = [
-        {
-            id: 1,
-            title: "বাস্তুহারা দিবস উপলক্ষে মানববন্ধন",
-            date: "২০২৫-০৭-১৮",
-            image: "https://i.ibb.co/kRWBCvz/image-355624-1.jpg",
-            summary: "জাতীয় প্রেসক্লাবের সামনে বাস্তুচ্যুতদের অধিকার আদায়ে মানববন্ধন অনুষ্ঠিত হয়েছে।",
-            fullContent: `আজ সকাল ১০টায় প্রেসক্লাবের সামনে হাজারো বাস্তুচ্যুত নাগরিক মানববন্ধনে অংশ নেন। বক্তারা সরকারের প্রতি তাদের বাস্তুভিটা ফেরত দেওয়ার আহ্বান জানান।`
-        },
-        {
-            id: 2,
-            title: "অধিকার মেলা ২০২৫ সফলভাবে সম্পন্ন",
-            date: "২০২৫-০৬-৩০",
-            image: "https://i.ibb.co/V0V7W2Kp/images.jpg",
-            summary: "রাজশাহীতে অনুষ্ঠিত অধিকার মেলায় প্রায় ৫ হাজার মানুষ অংশগ্রহণ করেছেন।",
-            fullContent: `দুই দিনব্যাপী এই মেলায় বাস্তুচ্যুতদের জন্য আইন সহায়তা, স্বাস্থ্য সেবা এবং অর্থনৈতিক পরামর্শ দেওয়া হয়।`
-        },
-        {
-            id: 3,
-            title: "রাজনৈতিক সহিংসতায় বাস্তুচ্যুত আরও ৩০ পরিবার",
-            date: "২০২৫-০৬-১০",
-            image: "https://i.ibb.co/cccMBgN7/Teknaf-36c4b4004b64586a3ab685ffff46cad6-1.jpg",
-            summary: "রাজনৈতিক দাঙ্গার কারণে ৩০টি পরিবার বসতভিটা হারিয়েছে, জরুরি সহায়তার দাবি উঠেছে।",
-            fullContent: `গতকাল সন্ধ্যায় সংঘটিত সহিংসতায় বাস্তুচ্যুত হয়েছে অন্তত ৩০টি পরিবার। সংগঠনের পক্ষ থেকে সহায়তা পৌঁছে দেওয়া হয়েছে।`
-        }
-    ];
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Fetch news from API
+    useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                setLoading(true);
+                const response = await axiosInstance.get('/news/get-all-news');
+                
+                if (response.data.success) {
+                    setNews(response.data.news);
+                } else {
+                    setError('Failed to fetch news');
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                setError(error.response?.data?.message || 'Failed to fetch news');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchNews();
+    }, []);
+
+    // Format date to Bengali format (২০২৫-০৬-৩০)
+
+    // Truncate text for summary
+    const truncateText = (text, maxLength = 150) => {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+    };
+
+    // Loading component
+    const LoadingSpinner = () => (
+        <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-teal-800"></div>
+        </div>
+    );
+
+    // Error component
+    const ErrorMessage = () => (
+        <div className="flex justify-center items-center min-h-[400px]">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
+                <div className="flex items-center">
+                    <span className="text-red-500 text-2xl mr-3">⚠️</span>
+                    <div>
+                        <h3 className="text-red-800 font-bold">সমস্যা হয়েছে</h3>
+                        <p className="text-red-600 text-sm">{error}</p>
+                    </div>
+                </div>
+                <button 
+                    onClick={() => window.location.reload()} 
+                    className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+                >
+                    পুনরায় চেষ্টা করুন
+                </button>
+            </div>
+        </div>
+    );
+
+    // No news component
+    const NoNews = () => (
+        <div className="flex justify-center items-center min-h-[400px]">
+            <div className="text-center">
+                <span className="text-6xl">📰</span>
+                <h3 className="text-xl font-bold text-gray-600 mt-4">কোনো সংবাদ পাওয়া যায়নি</h3>
+                <p className="text-gray-500 mt-2">শীঘ্রই নতুন সংবাদ যোগ করা হবে</p>
+            </div>
+        </div>
+    );
+
     return (
         <div>
             <Navbar />
@@ -46,79 +95,92 @@ const AllNews = () => {
                         </p>
                     </div>
 
-                    {/* News Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {news.map((item) => (
-                            <div
-                                key={item.id}
-                                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-teal-100"
-                            >
-                                {/* Image Section */}
-                                <div className="relative overflow-hidden">
-                                    <img
-                                        src={item.image}
-                                        alt={item.title}
-                                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                                    />
-                                    <div className="absolute top-4 right-4">
-                                        <span className="bg-teal-800 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                            📰 সংবাদ
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Content Section */}
-                                <div className="p-6">
-                                    {/* Date */}
-                                    <div className="flex items-center gap-2 text-teal-600 text-sm mb-3">
-                                        <span>📅</span>
-                                        <span>{item.date}</span>
-                                    </div>
-
-                                    {/* Title */}
-                                    <h3 className="text-xl font-bold text-slate-900 mb-3 leading-tight group-hover:text-teal-800 transition-colors duration-300">
-                                        {item.title}
-                                    </h3>
-
-                                    {/* Summary */}
-                                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                                        {item.summary}
-                                    </p>
-
-                                    {/* Full Content Preview */}
-                                    <div className="bg-teal-50 border-l-4 border-teal-800 p-3 rounded-r-lg mb-4">
-                                        <p className="text-slate-700 text-xs leading-relaxed">
-                                            {item.fullContent}
-                                        </p>
-                                    </div>
-
-                                    {/* Read More Button */}
-                                    <Link
-                                        to={`/news-details/${item.id}`}
-                                    >
-                                        <div className="w-full bg-gradient-to-r text-center from-teal-800 to-emerald-500 hover:from-teal-700 hover:to-emerald-400 text-white py-2 px-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
-                                            বিস্তারিত পড়ুন
+                    {/* Content */}
+                    {loading ? (
+                        <LoadingSpinner />
+                    ) : error ? (
+                        <ErrorMessage />
+                    ) : news.length === 0 ? (
+                        <NoNews />
+                    ) : (
+                        /* News Grid */
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {news.map((item) => (
+                                <Link
+                                    key={item._id}
+                                    to={`/news-details/${item._id}`}
+                                    className="block"
+                                >
+                                    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-teal-100 cursor-pointer">
+                                        {/* Image Section */}
+                                        <div className="relative overflow-hidden">
+                                            <img
+                                                src={item.image || item.imageUrl || "https://via.placeholder.com/400x300?text=No+Image"}
+                                                alt={item.title}
+                                                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                                onError={(e) => {
+                                                    e.target.src = "https://via.placeholder.com/400x300?text=No+Image";
+                                                }}
+                                            />
+                                            <div className="absolute top-4 right-4">
+                                                <span className="bg-teal-800 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                                    📰 সংবাদ
+                                                </span>
+                                            </div>
                                         </div>
-                                    </Link>
-                                </div>
 
-                                {/* Footer */}
-                                <div className="bg-gray-50 px-6 py-3 border-t">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                                            <span>🏷️</span>
-                                            <span>বাস্তুচ্যুত অধিকার</span>
+                                        {/* Content Section */}
+                                        <div className="p-6">
+                                            {/* Date */}
+                                            <div className="flex items-center gap-2 text-teal-600 text-sm mb-3">
+                                                <span>📅</span>
+                                                <span>{item.date}</span>
+                                            </div>
+
+                                            {/* Title */}
+                                            <h3 className="text-xl font-bold text-slate-900 mb-3 leading-tight group-hover:text-teal-800 transition-colors duration-300">
+                                                {item.title}
+                                            </h3>
+
+                                            {/* Summary */}
+                                            <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                                                {truncateText(item.summary || item.description || item.content)}
+                                            </p>
+
+                                            {/* Full Content Preview */}
+                                            {item.fullContent || item.content ? (
+                                                <div className="bg-teal-50 border-l-4 border-teal-800 p-3 rounded-r-lg mb-4">
+                                                    <p className="text-slate-700 text-xs leading-relaxed">
+                                                        {truncateText(item.fullContent || item.content, 100)}
+                                                    </p>
+                                                </div>
+                                            ) : null}
+
+                                            {/* Read More Button */}
+                                            <div className="w-full bg-gradient-to-r text-center from-teal-800 to-emerald-500 hover:from-teal-700 hover:to-emerald-400 text-white py-2 px-4 rounded-lg font-medium transition-all duration-300 transform group-hover:scale-105">
+                                                বিস্তারিত পড়ুন
+                                            </div>
                                         </div>
-                                        <div className="flex gap-1">
-                                            <div className="w-2 h-2 bg-teal-400 rounded-full"></div>
-                                            <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-                                            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+
+                                        {/* Footer */}
+                                        <div className="bg-gray-50 px-6 py-3 border-t">
+                                            <div className="flex justify-between items-center">
+                                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                                    <span>🏷️</span>
+                                                    <span>{item.category || 'বাস্তুচ্যুত অধিকার'}</span>
+                                                </div>
+                                                <div className="flex gap-1">
+                                                    <div className="w-2 h-2 bg-teal-400 rounded-full"></div>
+                                                    <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                                                    <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
             <Footer />

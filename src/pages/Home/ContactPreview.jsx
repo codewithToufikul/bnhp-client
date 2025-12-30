@@ -47,15 +47,7 @@ const ContactPreview = () => {
                     </div>
                 </div>
 
-                {/* Button */}
-                <div>
-                    <a
-                        href="/contact"
-                        className="inline-block px-8 py-3 bg-teal-800 text-white font-semibold rounded-lg hover:bg-emerald-500 transition-colors"
-                    >
-                        বিস্তারিত যোগাযোগ পেইজ দেখুন
-                    </a>
-                </div>
+                
             </div>
         </section>
     );
